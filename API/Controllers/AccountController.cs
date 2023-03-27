@@ -5,6 +5,8 @@ using System.Text;
 using API.Data;
 using API.DTOs;
 using API.Entities;
+using API.Interface;
+using API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,16 +15,17 @@ namespace API.Controllers
     public class AccountController : BaseApiController
     {
         private readonly DataContext context;
-
-        public AccountController(DataContext context)
+        private readonly ITokenService tokenService;
+        public AccountController(DataContext context, ITokenService tokenService)
         {
+            this.tokenService = tokenService;
             this.context = context;
         }
 
         [HttpPost("register")] // Post : api/Account/register
 
 
-        public async Task<ActionResult<AppUser>> Register(RegisterDtos registerDtos)
+        public async Task<ActionResult<UserDTOs>> Register(RegisterDtos registerDtos)
         {
             if (await UserExist(registerDtos.Username)) return BadRequest("username is taken");
 
@@ -38,14 +41,18 @@ namespace API.Controllers
             };
             context.Users.Add(user);
             await context.SaveChangesAsync();
-            return user;
+            return new UserDTOs
+            {
+                Username = user.UserName,
+                Token = tokenService.CreateToken(user)
+            };
 
         }
 
 
         [HttpPost("login")]
 
-        public async Task<ActionResult<AppUser>> Login(LoginDTOs loginDtos)
+        public async Task<ActionResult<UserDTOs>> Login(LoginDTOs loginDtos)
         {
 
             var user = await context.Users.SingleOrDefaultAsync(x => x.UserName == loginDtos.Username);
@@ -55,10 +62,11 @@ namespace API.Controllers
 
 
             using var hmac = new HMACSHA512(user.PasswordSalt);
-           
+
             var ComputeHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDtos.Password));
-          
-            if(!StructuralComparisons.StructuralEqualityComparer.Equals(ComputeHash, user.PasswordHash)){
+
+            if (!StructuralComparisons.StructuralEqualityComparer.Equals(ComputeHash, user.PasswordHash))
+            {
                 return Unauthorized("invalid PassComputeHashword");
             }
 
@@ -69,7 +77,11 @@ namespace API.Controllers
             //         return Unauthorized("Invalid Password");
             //     }
             // }
-            return user;
+            return new UserDTOs
+            {
+                Username = user.UserName,
+                Token = tokenService.CreateToken(user)
+            };
         }
 
         private async Task<bool> UserExist(string username)
