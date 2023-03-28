@@ -1,0 +1,52 @@
+<form #registerForm="ngForm" (ngSubmit)="onRegister()" autocomplete="off">
+  <h2 class="text-center text-primary">Sign up</h2>
+  <hr />
+
+  <div class="mb-3">
+    <input
+      type="text"
+      ngModel
+      name="username"
+      placeholder="Username"
+      class="form-control"
+      required
+      autocomplete="username"
+    />
+    <!-- <span
+      class="help-block text-danger mt-1"
+      *ngIf="
+        !registerForm.form.get('username')?.valid &&
+        registerForm.form.get('username')?.touched
+      "
+    >
+      please enter valid username
+    </span> -->
+  </div>
+  <div class="mb-3">
+    <input
+      type="password"
+      ngModel
+      name="password"
+      placeholder="Password"
+      class="form-control"
+      required
+      password
+      autocomplete="current-password"
+    />
+  </div>
+  <!-- <span
+    class="help-block text-danger"
+    *ngIf="
+      !registerForm.form.get('password')?.valid &&
+      registerForm.form.get('password')?.touched
+    "
+  >
+    please enter valid password
+  </span> -->
+  <div class="text-center">
+    <button class="btn btn-success me-2" type="submit">Register</button>
+    <button class="btn btn-default" type="button" (click)="onCancel()">
+      Cancel
+    </button>
+  </div>
+</form>
