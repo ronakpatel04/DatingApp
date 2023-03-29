@@ -22,7 +22,7 @@ export class RegisterComponent {
         console.log(res);
         this.onCancel();
       },
-      error: (error) => {
+      error: (error) => { 
         if (error.error.errors.Username) {
           this.toastr.error(error.error.errors.Username);
         } else {
