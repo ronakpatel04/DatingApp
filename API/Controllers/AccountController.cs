@@ -67,7 +67,7 @@ namespace API.Controllers
 
             if (!StructuralComparisons.StructuralEqualityComparer.Equals(ComputeHash, user.PasswordHash))
             {
-                return Unauthorized("invalid PassComputeHashword");
+                return Unauthorized("invalid Password");
             }
 
             // for (int i = 0; i < ComputeHash.Length; i++)

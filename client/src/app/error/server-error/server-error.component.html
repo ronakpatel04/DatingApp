@@ -1,0 +1,7 @@
+<h4 style="color: white;">Internal Server error - refreshing the page will make the error disappear </h4>
+<ng-container *ngIf="errors">
+    <h5 class="text-danger">Error:{{errors.message}}</h5>
+    <p class="font-weight-bold" style="color: white;">Note : If you are seeing this then angular is not probably not to blame </p>
+    <p style="font-weight: 100;color: white" >Following is the stack trace - the first few lines will tell you which line of code caused the issue in the API.</p>
+    <code class="mt-5" >{{errors.details}}</code>
+</ng-container>
