@@ -23,11 +23,14 @@ export class RegisterComponent {
         this.onCancel();
       },
       error: (error) => { 
-        if (error.error.errors.Username) {
-          this.toastr.error(error.error.errors.Username);
-        } else {
-          this.toastr.error(error.error.errors.Password);
-        }
+      
+        console.log(error);
+        this.toastr.error(error);
+        // if (error.error.errors.Username) {
+        //   this.toastr.error(error.error.errors.Username);
+        // } else {
+        //   this.toastr.error(error.error.errors.Password);
+        // }
       },
     });
   }

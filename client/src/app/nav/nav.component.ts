@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '../services/account.service';
 
-
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
@@ -14,8 +13,11 @@ export class NavComponent implements OnInit {
   @ViewChild('loginForm') loginForm!: NgForm;
   logIn = false;
 
-
-  constructor(private route: Router, public accountService: AccountService,private toastr : ToastrService) {}
+  constructor(
+    private route: Router,
+    public accountService: AccountService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.getCurrentUser();
@@ -31,17 +33,14 @@ export class NavComponent implements OnInit {
   login() {
     this.accountService.login(this.loginForm.value).subscribe({
       next: () => {
-       
-        
         this.route.navigateByUrl('/members');
         this.logIn = true;
       },
-      
     });
   }
   logout() {
     this.logIn = false;
     this.accountService.logout();
-    this.route.navigateByUrl('/')
+    this.route.navigateByUrl('/');
   }
 }
