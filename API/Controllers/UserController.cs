@@ -19,7 +19,7 @@ public class UsersController : BaseApiController
     private readonly IUserRepository userRepository;
     private readonly IMapper mapper;
 
-    public UsersController(IUserRepository userRepository , IMapper mapper)
+    public UsersController(IUserRepository userRepository, IMapper mapper)
     {
         this.userRepository = userRepository;
         this.mapper = mapper;
@@ -29,13 +29,8 @@ public class UsersController : BaseApiController
 
     public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
     {
-
-        var users = await userRepository.GetUserAsync();
-
-        var usersToReturn = mapper.Map<IEnumerable<MemberDto>>(users);
-
-
-        return Ok(usersToReturn);
+        var users = await userRepository.GetMembersAsync();
+        return Ok(users);
 
     }
 
@@ -43,8 +38,15 @@ public class UsersController : BaseApiController
 
     public async Task<ActionResult<MemberDto>> GetUser(string username)
     {
-                var user =  await userRepository.GetUserByUsernameAsync(username);
+        return await userRepository.GetMemberAsync(username);
 
-                return mapper.Map<MemberDto>(user);
     }
+
+
+    // [HttpGet("{id}")]
+
+    // public async Task<ActionResult<AppUser>> GetUser(int id)
+    // {
+    //     return await userRepository.GetUserByIdAsync(id);
+    // }
 }
