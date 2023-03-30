@@ -69,3 +69,5 @@ D:\DatingApp\API\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.
 D:\DatingApp\API\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.dll
 D:\DatingApp\API\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 D:\DatingApp\API\bin\Debug\net7.0\Data\UserSeedData.json
+D:\DatingApp\API\bin\Debug\net7.0\AutoMapper.dll
+D:\DatingApp\API\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
