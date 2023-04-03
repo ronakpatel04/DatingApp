@@ -47,7 +47,7 @@
       <tab heading="About {{ member.knownAs }}">
         <form #editForm="ngForm" id="editForm" (ngSubmit)="updateMember()">
           <h4 class="mt-4">Description</h4>
-          <textarea
+          <textarea style="background-color: #002B36; color: white"
             name="introduction"
             class="form-control"
             [(ngModel)]="member.introduction"
@@ -55,6 +55,7 @@
           ></textarea>
           <h4 class="mt-4">Looking For</h4>
           <textarea
+          style="background-color: #002B36; color: white; "
             name="lookingFor"
             class="form-control"
             [(ngModel)]="member.lookingFor"
@@ -62,6 +63,7 @@
           ></textarea>
           <h4 class="mt-4">Interests</h4>
           <textarea
+          style="background-color: #002B36; color: white;"
             name="interests"
             class="form-control"
             [(ngModel)]="member.interests"
@@ -71,6 +73,7 @@
           <div class="d-flex flex-row aligh-items-center">
             <label for="city">City:</label>
             <input
+            style="background-color: #002B36; color: white;"
               type="text"
               [(ngModel)]="member.city"
               name="city"
@@ -79,6 +82,7 @@
             <label for="country">Country:</label>
             <input
               type="text"
+              style="background-color: #002B36; color: white; "
               [(ngModel)]="member.country"
               name="country"
               class="form-control mx-2"

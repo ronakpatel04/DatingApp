@@ -58,6 +58,7 @@ public class UsersController : BaseApiController
 
         if(user == null) return NotFound();
         mapper.Map(memberUpdateDto, user);
+        System.Console.WriteLine(memberUpdateDto);
         if(await userRepository.SaveAllAsync()) return NoContent();
 
         return BadRequest("failed to update user");
