@@ -35,9 +35,11 @@ export class AccountService {
     localStorage.removeItem('user');
   }
 
-  register(data: User) {
+  register(data : User) {
+
     return this.http.post<User>(this.baseUrl + 'account/register', data).pipe(
       map((user: User) => {
+        console.log(user)
         if (user) {
           localStorage.setItem('user', JSON.stringify(user));
           this.currentUserSource.next(user);
