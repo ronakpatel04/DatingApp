@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.development';
 import { Member } from '../models/member';
 import { map, of } from 'rxjs';
+import { Photo } from '../models/photo';
 
 @Injectable({
   providedIn: 'root',
@@ -43,5 +44,7 @@ export class MembersService {
       this.members[index] = {...this.members[index], ...member}
     }))
   }
- 
+    setMainPhoto(photoId : number){
+       return this.http.put(this.baseUrl + 'users/set-main-photo/'+ photoId,{});
+    }
 }

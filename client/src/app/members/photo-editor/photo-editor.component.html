@@ -6,7 +6,8 @@
       class="img-thumbnail mb-1"
     />
     <div class="text-center">
-      <button class="btn btn-sm me-1 mb-2" style="color: white">Main</button>
+      <button class="btn btn-sm me-1 mb-2" style="color: white"
+      [disabled]="photo.isMain" (click)="setMainPhoto(photo)" [ngClass]="photo.isMain?'btn-success active' : 'btn-outline-sucess'">Main</button>
       <button class="btn btn-sm btn-danger mb-2">
         <i class="fa fa-trash"></i>
       </button>
