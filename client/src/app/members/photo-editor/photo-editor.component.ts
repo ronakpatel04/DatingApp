@@ -52,6 +52,14 @@ ngOnInit(): void {
       })
     }
 
+    deletePhoto(photoId:number){
+        this.memberService.deletePhoto(photoId).subscribe(()=>{
+          if(this.member){
+            this.member.photos = this.member.photos.filter(x=>x.id !== photoId);
+          }
+        })
+    }
+
 
 
 
