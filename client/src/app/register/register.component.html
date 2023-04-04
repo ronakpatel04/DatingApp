@@ -5,13 +5,16 @@
   <div class="mb-3">
     <input
       type="text"
-
       formControlName="username"
       placeholder="Username"
+      [class.is-invalid]="
+        registerForm.get('username')?.touched &&
+        registerForm.get('username')?.errors
+      "
       class="form-control"
-      required
       autocomplete="username"
     />
+    <div class="invalid-feedback">Please enter a username</div>
     <!-- <span
       class="help-block text-danger mt-1"
       *ngIf="
@@ -25,26 +28,30 @@
   <div class="mb-3">
     <input
       type="password"
-      
       formControlName="password"
       placeholder="Password"
       class="form-control"
-      required
-      password
       autocomplete="current-password"
+      [class.is-invalid] ="registerForm.get('password')?.touched && registerForm.get('password')?.errors"
     />
+    <div class="invalid-feedback" *ngIf="registerForm.get('password')?.hasError('required')">Please enter a password</div>
+    <div class="invalid-feedback" *ngIf="registerForm.get('password')?.hasError('minlengeth')">Password must be at least 4 characters </div>
+    <div class="invalid-feedback" *ngIf="registerForm.get('password')?.hasError('maxlength')">Password must be at most 8 characters </div>
+
+
   </div>
   <div class="mb-3">
     <input
       type="password"
-      
+      [class.is-invalid] ="registerForm.get('confirmPassword')?.touched && registerForm.get('confirmPassword')?.errors"
       formControlName="confirmPassword"
       placeholder="Password"
       class="form-control"
-      required
-      password
       autocomplete="current-password"
     />
+    <div class="invalid-feedback" *ngIf="registerForm.get('confirmPassword')?.hasError('required')">Please enter conformation password</div>
+    <div class="invalid-feedback" *ngIf="!registerForm.get('confirmPassword')?.hasError('notMatch') && !registerForm.get('confirmPassword')?.hasError('required')">Password doesn't match </div>
+
   </div>
   <!-- <span
     class="help-block text-danger"
@@ -56,10 +63,11 @@
     please enter valid password
   </span> -->
   <div class="text-center">
-    <button class="btn btn-success me-2" type="submit">Register</button>
+    <button class="btn btn-success me-2" type="submit" [disabled]="!registerForm.valid">Register</button>
     <button class="btn btn-default" type="button" (click)="onCancel()">
       Cancel
     </button>
-    <p>{{registerForm.status | json }}
   </div>
 </form>
+
+<p>Status:{{ registerForm.status | json }}</p>
