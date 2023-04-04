@@ -22,13 +22,13 @@ namespace API.Services
                 config.Value.ApiKey,
                 config.Value.ApiSecret
             );
-           System.Console.WriteLine("Config {0}",config.Value.CloudName); 
-           System.Console.WriteLine(config.Value.ApiKey); 
-           System.Console.WriteLine(config.Value.ApiSecret); 
+            System.Console.WriteLine("Config {0}", config.Value.CloudName);
+            System.Console.WriteLine(config.Value.ApiKey);
+            System.Console.WriteLine(config.Value.ApiSecret);
             _cloudinary = new Cloudinary(acc);
         }
 
-        
+
         public async Task<ImageUploadResult> AddPhotoAsync(IFormFile file)
         {
             var uploadResult = new ImageUploadResult();
