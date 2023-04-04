@@ -2,7 +2,19 @@
   <h2 class="text-center text-primary">Sign up</h2>
   <hr />
 
-  <div class="mb-3">
+ 
+ 
+  <app-text-input [label]="'Username'"  [formControl]="$any(registerForm.controls['username'])"></app-text-input>
+  <app-text-input [label]="'Password'"  [formControl]="$any(registerForm.controls['password'])" [type]="'password'"></app-text-input>
+
+  <app-text-input [label]="'Conform password'"  [formControl]="$any(registerForm.controls['confirmPassword'])" [type]="'password'"></app-text-input>
+
+ 
+ 
+ 
+ 
+ 
+  <!-- <div class="mb-3">
     <input
       type="text"
       formControlName="username"
@@ -15,7 +27,14 @@
       autocomplete="username"
     />
     <div class="invalid-feedback">Please enter a username</div>
-    <!-- <span
+    
+  </div> -->
+
+
+
+
+<!-- THIS IS SAMPLE FOR TEMPLATE DRIVEN FORM 
+   <span
       class="help-block text-danger mt-1"
       *ngIf="
         !registerForm.form.get('username')?.valid &&
@@ -24,8 +43,10 @@
     >
       please enter valid username
     </span> -->
-  </div>
-  <div class="mb-3">
+
+
+
+  <!-- <div class="mb-3">
     <input
       type="password"
       formControlName="password"
@@ -39,8 +60,12 @@
     <div class="invalid-feedback" *ngIf="registerForm.get('password')?.hasError('maxlength')">Password must be at most 8 characters </div>
 
 
-  </div>
-  <div class="mb-3">
+  </div> -->
+
+
+<!-- confirmPassword -->
+
+  <!-- <div class="mb-3">
     <input
       type="password"
       [class.is-invalid] ="registerForm.get('confirmPassword')?.touched && registerForm.get('confirmPassword')?.errors"
@@ -52,8 +77,13 @@
     <div class="invalid-feedback" *ngIf="registerForm.get('confirmPassword')?.hasError('required')">Please enter conformation password</div>
     <div class="invalid-feedback" *ngIf="!registerForm.get('confirmPassword')?.hasError('notMatch') && !registerForm.get('confirmPassword')?.hasError('required')">Password doesn't match </div>
 
-  </div>
-  <!-- <span
+  </div> -->
+
+
+
+
+
+  <!-- THIS IS SAMPLE FOR TEMPLATE DRIVEN FORM<span
     class="help-block text-danger"
     *ngIf="
       !registerForm.form.get('password')?.valid &&
@@ -62,6 +92,12 @@
   >
     please enter valid password
   </span> -->
+
+
+
+
+
+
   <div class="text-center">
     <button class="btn btn-success me-2" type="submit" [disabled]="!registerForm.valid">Register</button>
     <button class="btn btn-default" type="button" (click)="onCancel()">
