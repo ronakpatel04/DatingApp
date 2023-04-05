@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Helpers;
 using API.Interface;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -31,7 +32,7 @@ namespace API.Data
 
         public async Task<IEnumerable<MemberDto>> GetMembersAsync()
         {
-            return await context.Users.ProjectTo<MemberDto>(mapper.ConfigurationProvider).ToListAsync();
+            return await context.Users.Take(4).Skip(4).ProjectTo<MemberDto>(mapper.ConfigurationProvider).ToListAsync();
  
          }
 
@@ -60,6 +61,11 @@ namespace API.Data
         public void Update(AppUser user)
         {
            context.Entry(user).State = EntityState.Modified;
+        }
+
+        Task<PagedList<MemberDto>> IUserRepository.GetMembersAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }
