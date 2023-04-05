@@ -1,0 +1,15 @@
+<div class="mb-3">
+    <input
+      type="text"
+      [formControl]="control"
+      placeholder="{{ label }}"
+      class="form-control"
+      bsDatepicker
+      [bsConfig]="bsConfig"
+      [maxDate]="maxDate"
+      autocomplete="current-password"
+      [class.is-invalid]="ngControl.invalid && ngControl.touched"
+    />
+    <div class="invalid-feedback" *ngIf="control.errors?.['required']">
+      Please enter a {{ label }}
+    </div>

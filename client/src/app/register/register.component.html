@@ -10,10 +10,11 @@
     [label]="'knownAs'"
     [formControl]="$any(registerForm.controls['knownAs'])"
   ></app-text-input>
-  <app-text-input
-    [label]="'dateOfBirth'"
+  <app-date-picker
+    [label]="'Date of Birth'"
+    [maxDate]="maxDate"
     [formControl]="$any(registerForm.controls['dateOfBirth'])"
-  ></app-text-input>
+  ></app-date-picker>
   <app-text-input
     [label]="'city'"
     [formControl]="$any(registerForm.controls['city'])"
@@ -126,4 +127,3 @@
   </div>
 </form>
 
-<p>Status:{{ registerForm.status | json }}</p>

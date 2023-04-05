@@ -7,6 +7,7 @@ using API.DTOs;
 using API.Entities;
 using API.Interface;
 using API.Services;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,9 +17,12 @@ namespace API.Controllers
     {
         private readonly DataContext context;
         private readonly ITokenService tokenService;
-        public AccountController(DataContext context, ITokenService tokenService)
+        private readonly IMapper mapper;
+
+        public AccountController(DataContext context, ITokenService tokenService, IMapper mapper)
         {
             this.tokenService = tokenService;
+            this.mapper = mapper;
             this.context = context;
         }
 
@@ -31,20 +35,21 @@ namespace API.Controllers
 
             using var hmac = new HMACSHA512();
 
+            var user = mapper.Map<AppUser>(registerDtos);
 
-            var user = new AppUser
-            {
 
-                UserName = registerDtos.Username.ToLower(),
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDtos.Password)),
-                PasswordSalt = hmac.Key
-            };
+
+            user.UserName = registerDtos.Username.ToLower();
+            user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDtos.Password));
+            user.PasswordSalt = hmac.Key;
+
             context.Users.Add(user);
             await context.SaveChangesAsync();
             return new UserDtos
             {
                 Username = user.UserName,
-                Token = tokenService.CreateToken(user)
+                Token = tokenService.CreateToken(user),
+                KnownAs = user.KnownAs
             };
 
         }
@@ -55,7 +60,7 @@ namespace API.Controllers
         public async Task<ActionResult<UserDtos>> Login(LoginDtos loginDtos)
         {
 
-            var user = await context.Users.Include(p=>p.Photos).SingleOrDefaultAsync(x => x.UserName == loginDtos.Username);
+            var user = await context.Users.Include(p => p.Photos).SingleOrDefaultAsync(x => x.UserName == loginDtos.Username);
 
             if (user == null) return Unauthorized("Invalid Username");
 
@@ -81,7 +86,8 @@ namespace API.Controllers
             {
                 Username = user.UserName,
                 Token = tokenService.CreateToken(user),
-                PhotoUrl = user.Photos.FirstOrDefault(x=>x.IsMain)?.Url
+                PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
+                KnownAs = user.KnownAs
             };
         }
 
