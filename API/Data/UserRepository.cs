@@ -18,7 +18,7 @@ namespace API.Data
         private readonly DataContext context;
         private readonly IMapper mapper;
 
-        public UserRepository(DataContext context , IMapper mapper)
+        public UserRepository(DataContext context, IMapper mapper)
         {
             this.context = context;
             this.mapper = mapper;
@@ -26,46 +26,46 @@ namespace API.Data
 
         public async Task<MemberDto> GetMemberAsync(string username)
         {
-            return await  context.Users.Where(x=>x.UserName == username).ProjectTo<MemberDto>(mapper.ConfigurationProvider).SingleOrDefaultAsync();
-           
+            return await context.Users.Where(x => x.UserName == username).ProjectTo<MemberDto>(mapper.ConfigurationProvider).SingleOrDefaultAsync();
+
         }
 
-        public async Task<IEnumerable<MemberDto>> GetMembersAsync()
+
+
+        public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
         {
-            return await context.Users.Take(4).Skip(4).ProjectTo<MemberDto>(mapper.ConfigurationProvider).ToListAsync();
- 
-         }
+            var query = context.Users.ProjectTo<MemberDto>(mapper.ConfigurationProvider).AsNoTracking();
+
+            return await PagedList<MemberDto>.CreateAsync(query, userParams.PageNumber, userParams.PageSize);
+        }
 
         public async Task<IEnumerable<AppUser>> GetUserAsync()
         {
-           return await context.Users.Include(p=>p.Photos).ToListAsync();
+            return await context.Users.Include(p => p.Photos).ToListAsync();
         }
 
         public async Task<AppUser> GetUserByIdAsync(int id)
         {
-             return await context.Users.FindAsync(id);
+            return await context.Users.FindAsync(id);
         }
 
         public async Task<AppUser> GetUserByUsernameAsync(string username)
         {
-            return await context.Users.Include(p=>p.Photos).SingleOrDefaultAsync(x=>x.UserName == username);
+            return await context.Users.Include(p => p.Photos).SingleOrDefaultAsync(x => x.UserName == username);
         }
 
-        
 
-        public  async Task<bool> SaveAllAsync()
+
+        public async Task<bool> SaveAllAsync()
         {
-            return await context.SaveChangesAsync()>0;
+            return await context.SaveChangesAsync() > 0;
         }
 
         public void Update(AppUser user)
         {
-           context.Entry(user).State = EntityState.Modified;
+            context.Entry(user).State = EntityState.Modified;
         }
 
-        Task<PagedList<MemberDto>> IUserRepository.GetMembersAsync()
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }
