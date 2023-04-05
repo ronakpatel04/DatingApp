@@ -11,66 +11,60 @@ import { PaginatedResult } from '../models/pagination';
 })
 export class MembersService {
   baseUrl = environment.apiUrl;
-  members:Member[] = [];
-  paginatedResult : PaginatedResult<Member[]> = new PaginatedResult<Member[]>;
-  constructor(private http: HttpClient) {
-   
-  }
+  members: Member[] = [];
+  paginatedResult: PaginatedResult<Member[]> = new PaginatedResult<Member[]>();
+  constructor(private http: HttpClient) {}
 
-  getMembers(page?:number , itemsPerPage?: number) {
-
+  getMembers(page?: number, itemsPerPage?: number) {
     let params = new HttpParams();
-    if(page && itemsPerPage){
+    if (page && itemsPerPage) {
       params = params.append('pageNumber', page);
       params = params.append('pageSize', itemsPerPage);
     }
 
     // if(this.members.length>0) return of(this.members);
-    return this.http.get<Member[]>(
-      this.baseUrl + 'users',{observe:'response' , params}
-    
-    ).pipe(
-    //   map(members =>{
-    //   this.members =members;
-    //   console.log(this.members);
+    return this.http
+      .get<Member[]>(this.baseUrl + 'users', { observe: 'response', params })
+      .pipe(
+        //   map(members =>{
+        //   this.members =members;
+        //   console.log(this.members);
 
-    //   return members;
-    // }));
+        //   return members;
+        // }));
 
-
-    map(response =>{
-        if(response.body){
-          this.paginatedResult.result = response.body
-        }
-        const pagination = response.headers.get('Pagination');
-        if(pagination){
-          this.paginatedResult.pagination = JSON.parse(pagination);
-        }
-        return this.paginatedResult;
-    })
-    )
+        map((response) => {
+          if (response.body) {
+            this.paginatedResult.result = response.body;
+          }
+          const pagination = response.headers.get('Pagination');
+          if (pagination) {
+            this.paginatedResult.pagination = JSON.parse(pagination);
+          }
+          return this.paginatedResult;
+        })
+      );
   }
 
-  getMember(username : string) {
-    const member =  this.members.find(x=>x.userName === username);
-    if(member) return of(member)
-    return this.http.get<Member>(
-      this.baseUrl + 'users/'+username
-      
+  getMember(username: string) {
+    const member = this.members.find((x) => x.userName === username);
+    if (member) return of(member);
+    return this.http.get<Member>(this.baseUrl + 'users/' + username);
+  }
+
+  updateMember(member: Member) {
+    return this.http.put(this.baseUrl + 'users', member).pipe(
+      map(() => {
+        const index = this.members.indexOf(member);
+        this.members[index] = { ...this.members[index], ...member };
+      })
     );
   }
-
-  updateMember(member:Member){
-    return this.http.put(this.baseUrl + 'users', member).pipe(map(()=>{
-      const index = this.members.indexOf(member);
-      this.members[index] = {...this.members[index], ...member}
-    }))
+  setMainPhoto(photoId: number) {
+    return this.http.put(this.baseUrl + 'users/set-main-photo/' + photoId, {});
   }
-    setMainPhoto(photoId : number){
-       return this.http.put(this.baseUrl + 'users/set-main-photo/'+ photoId,{});
-    }
 
-    deletePhoto (photoId:number){
-      return this.http.delete(this.baseUrl+'users/delete-photo/'+photoId , {});
-    }
+  deletePhoto(photoId: number) {
+    return this.http.delete(this.baseUrl + 'users/delete-photo/' + photoId, {});
+  }
 }
