@@ -2,18 +2,47 @@
   <h2 class="text-center text-primary">Sign up</h2>
   <hr />
 
- 
- 
-  <app-text-input [label]="'Username'"  [formControl]="$any(registerForm.controls['username'])"></app-text-input>
-  <app-text-input [label]="'Password'"  [formControl]="$any(registerForm.controls['password'])" [type]="'password'"></app-text-input>
+  <app-text-input
+    [label]="'Username'"
+    [formControl]="$any(registerForm.controls['username'])"
+  ></app-text-input>
+  <app-text-input
+    [label]="'knownAs'"
+    [formControl]="$any(registerForm.controls['knownAs'])"
+  ></app-text-input>
+  <app-text-input
+    [label]="'dateOfBirth'"
+    [formControl]="$any(registerForm.controls['dateOfBirth'])"
+  ></app-text-input>
+  <app-text-input
+    [label]="'city'"
+    [formControl]="$any(registerForm.controls['city'])"
+  ></app-text-input>
+  <app-text-input
+  [label]="'country'"
+  [formControl]="$any(registerForm.controls['country'])"
+></app-text-input>
+  <div class="mb-3 " style="color: white;">
+    <label style="margin-right: 10px;">I am a : </label>
+    <label class="form-check-label">
+      <input type="radio" class="form-check-input me-1" value="male" formControlName="gender">Male
+    </label>
+    <label class="form-check-label">
+      <input type="radio" class="form-check-input ms-3 me-1" value="female" formControlName="gender">Female
+    </label>
+  </div>
+  <app-text-input
+    [label]="'Password'"
+    [formControl]="$any(registerForm.controls['password'])"
+    [type]="'password'"
+  ></app-text-input>
 
-  <app-text-input [label]="'Conform password'"  [formControl]="$any(registerForm.controls['confirmPassword'])" [type]="'password'"></app-text-input>
+  <app-text-input
+    [label]="'Conform password'"
+    [formControl]="$any(registerForm.controls['confirmPassword'])"
+    [type]="'password'"
+  ></app-text-input>
 
- 
- 
- 
- 
- 
   <!-- <div class="mb-3">
     <input
       type="text"
@@ -30,10 +59,7 @@
     
   </div> -->
 
-
-
-
-<!-- THIS IS SAMPLE FOR TEMPLATE DRIVEN FORM 
+  <!-- THIS IS SAMPLE FOR TEMPLATE DRIVEN FORM 
    <span
       class="help-block text-danger mt-1"
       *ngIf="
@@ -43,8 +69,6 @@
     >
       please enter valid username
     </span> -->
-
-
 
   <!-- <div class="mb-3">
     <input
@@ -62,8 +86,7 @@
 
   </div> -->
 
-
-<!-- confirmPassword -->
+  <!-- confirmPassword -->
 
   <!-- <div class="mb-3">
     <input
@@ -79,10 +102,6 @@
 
   </div> -->
 
-
-
-
-
   <!-- THIS IS SAMPLE FOR TEMPLATE DRIVEN FORM<span
     class="help-block text-danger"
     *ngIf="
@@ -93,13 +112,14 @@
     please enter valid password
   </span> -->
 
-
-
-
-
-
   <div class="text-center">
-    <button class="btn btn-success me-2" type="submit" [disabled]="!registerForm.valid">Register</button>
+    <button
+      class="btn btn-success me-2"
+      type="submit"
+      [disabled]="!registerForm.valid"
+    >
+      Register
+    </button>
     <button class="btn btn-default" type="button" (click)="onCancel()">
       Cancel
     </button>
