@@ -16,11 +16,14 @@ export class MembersService {
   paginatedResult: PaginatedResult<Member[]> = new PaginatedResult<Member[]>();
   constructor(private http: HttpClient) {}
 
-  getMembers(userParams:UserParams) {
-    let params = this.getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
+  getMembers(userParams: UserParams) {
+    let params = this.getPaginationHeaders(
+      userParams.pageNumber,
+      userParams.pageSize
+    );
 
     params = params.append('minAge', userParams.minAge);
-    params =params.append('maxAge', userParams.maxAge);
+    params = params.append('maxAge', userParams.maxAge);
     params = params.append('gender', userParams.gender);
 
     // if(this.members.length>0) return of(this.members);
@@ -47,11 +50,11 @@ export class MembersService {
       );
   }
 
-  private getPaginationHeaders(pageNumber:number, pageSize:number) {
+  private getPaginationHeaders(pageNumber: number, pageSize: number) {
     let params = new HttpParams();
-  
-      params = params.append('pageNumber', pageNumber);
-      params = params.append('pageSize', pageSize);
+
+    params = params.append('pageNumber', pageNumber);
+    params = params.append('pageSize', pageSize);
 
     return params;
   }
