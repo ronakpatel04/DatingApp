@@ -10,7 +10,7 @@ import { MemberListComponent } from './members/member-list/member-list.component
 import { MessagesComponent } from './messages/messages.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
-import { PreventUnchangesSaveGuard } from './_guard/prevent-unchanges-save.guard';
+import { PreventUnchangesSaveGuard } from './_guards/prevent-unchanges-save.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
