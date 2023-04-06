@@ -38,7 +38,7 @@
     >
     <img src="{{User.photoUrl || './assets/user.png'}}" alt="user photo">
       <a class="dropdown-toggle text-light text-decoration-none ms-2" dropdownToggle
-        >Welcome {{ User.username | titlecase }}</a
+        >Welcome {{ User.knownAs | titlecase }}</a
       >
 
       <div class="dropdown-menu my-3" *dropdownMenu>
