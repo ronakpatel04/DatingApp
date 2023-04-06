@@ -26,18 +26,18 @@ import { Router } from '@angular/router';
 export class RegisterComponent implements OnInit {
   @Output() cancelRegister = new EventEmitter();
   registerForm!: FormGroup;
-  maxDate:Date =  new Date();   
-  validationError!:string[]
+  maxDate: Date = new Date();
+  validationError!: string[];
 
   constructor(
     private accountService: AccountService,
     private toastr: ToastrService,
     private fb: FormBuilder,
-    private route : Router
+    private route: Router
   ) {}
   ngOnInit(): void {
     this.initializeForm();
-    this.maxDate.setFullYear(this.maxDate.getFullYear()-18);
+    this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
   }
 
   initializeForm() {
@@ -74,37 +74,38 @@ export class RegisterComponent implements OnInit {
   }
 
   onRegister() {
-      const dob = this.getDateOnly(this.registerForm.controls['dateOfBirth'].value);
-      const values = {...this.registerForm.value, dateOfBirth: dob}
-
-      
+    const dob = this.getDateOnly(
+      this.registerForm.controls['dateOfBirth'].value
+    );
+    const values = { ...this.registerForm.value, dateOfBirth: dob };
 
     this.accountService.register(values).subscribe({
       next: (res) => {
-        this.route.navigateByUrl('/members')
-       
+        this.route.navigateByUrl('/members');
       },
       error: (error) => {
-
-    this.validationError = error;
-    // <------  if (error.error.errors.Username) {
-    //   this.toastr.error(error.error.errors.Username);
-    // } else {
-    //   this.toastr.error(error.error.errors.Password);
-    // } ---->
-    //   },
-      }
-    })
+        this.validationError = error;
+        // <------  if (error.error.errors.Username) {
+        //   this.toastr.error(error.error.errors.Username);
+        // } else {
+        //   this.toastr.error(error.error.errors.Password);
+        // } ---->
+        //   },
+      },
+    });
   }
 
   onCancel() {
     this.cancelRegister.emit(false);
   }
 
-
-  private getDateOnly(dob:string | undefined){
-    if(!dob) return;
+  private getDateOnly(dob: string | undefined) {
+    if (!dob) return;
     let theDob = new Date(dob);
-    return new Date(theDob.setMinutes(theDob.getMinutes()-theDob.getTimezoneOffset())).toISOString().slice(0,10);
+    return new Date(
+      theDob.setMinutes(theDob.getMinutes() - theDob.getTimezoneOffset())
+    )
+      .toISOString()
+      .slice(0, 10);
   }
 }
