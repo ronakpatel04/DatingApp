@@ -1,8 +1,10 @@
 <div class="text-center mt-3">
-  <h2 style="color: #B58900;">Your Matches -{{ pagination.totalItems }} found !</h2>
+  <h2 style="color: #b58900">
+    Your Matches -{{ pagination.totalItems }} found !
+  </h2>
 </div>
 
-<div class="container  mt-3">
+<div class="container mt-3">
   <form
     #Form="ngForm"
     class="d-flex mb-3"
@@ -42,8 +44,37 @@
         </option>
       </select>
     </div>
-    <button class="btn btn-success ms-2 me-2" type="submit">Apply Filters</button>
-    <button class="btn btn-info ms-1" (click)="resetFilter()" type="submit">Reset Filters</button>
+    <button class="btn btn-success ms-2 me-2" type="submit">
+      Apply Filters
+    </button>
+    <button class="btn btn-info ms-1" (click)="resetFilter()" type="submit">
+      Reset Filters
+    </button>
+
+    <div class="col ms-2">
+      <div class="btn-group float-end">
+        <button
+          class="btn btn-success"
+          name="odrderBy"
+          style="margin-right: 2px"
+          btnRadio="lastActive"
+          (click)="loadMembers()"
+          [(ngModel)]="userParams.orderBy"
+        >
+          Last Active
+        </button>
+
+        <button
+          class="btn btn-info"
+          name="odrderBy"
+          btnRadio="created"
+          (click)="loadMembers()"
+          [(ngModel)]="userParams.orderBy"
+        >
+          Newest Member
+        </button>
+      </div>
+    </div>
   </form>
 </div>
 
@@ -54,7 +85,7 @@
 </div>
 
 <div class="d-flex justify-content-center" *ngIf="pagination">
-  <pagination 
+  <pagination
     [boundaryLinks]="true"
     [totalItems]="pagination.totalItems"
     [itemsPerPage]="pagination.itemsPerPage"
