@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230407101554_MessageEntityAdded")]
+    [Migration("20230407135904_MessageEntityAdded")]
     partial class MessageEntityAdded
     {
         /// <inheritdoc />
@@ -85,13 +85,13 @@ namespace API.Data.Migrations
                     b.Property<DateTime>("MessageSent")
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("ReciverDeleted")
+                    b.Property<bool>("ReceiverDeleted")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ReciverId")
+                    b.Property<int>("ReceiverId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("ReiverUsername")
+                    b.Property<string>("ReceiverUsername")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("SenderDeleted")
@@ -105,7 +105,7 @@ namespace API.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ReciverId");
+                    b.HasIndex("ReceiverId");
 
                     b.HasIndex("SenderId");
 
@@ -154,9 +154,9 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.Message", b =>
                 {
-                    b.HasOne("API.Entities.AppUser", "Reciver")
+                    b.HasOne("API.Entities.AppUser", "Receiver")
                         .WithMany("MessagesReceived")
-                        .HasForeignKey("ReciverId")
+                        .HasForeignKey("ReceiverId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -166,7 +166,7 @@ namespace API.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Reciver");
+                    b.Navigation("Receiver");
 
                     b.Navigation("Sender");
                 });

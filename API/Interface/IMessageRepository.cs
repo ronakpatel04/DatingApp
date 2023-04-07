@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
 using API.Helpers;
@@ -18,7 +14,7 @@ namespace API.Interface
 
         Task<PagedList<MessageDto>>GetMessagesForUser();
 
-        Task<IEnumerable<MessageDto>>GetMessageThread(int currentuserId , int reciverId);
+        Task<IEnumerable<MessageDto>>GetMessageThread(int currentuserId , int receiverId);
     
         Task<bool>SaveAllAsync();
 

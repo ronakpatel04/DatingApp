@@ -36,14 +36,14 @@ namespace API.Data
 
 
             builder.Entity<Message>()
-            .HasOne(u=>u.Reciver)
-            .WithMany(m=>m.MessagesReceived)
+            .HasOne(u => u.Receiver)
+            .WithMany(m => m.MessagesReceived)
             .OnDelete(DeleteBehavior.Restrict);
 
 
             builder.Entity<Message>()
-            .HasOne(u=>u.Sender)
-            .WithMany(m=>m.MessagesSent)
+            .HasOne(u => u.Sender)
+            .WithMany(m => m.MessagesSent)
             .OnDelete(DeleteBehavior.Restrict);
 
 

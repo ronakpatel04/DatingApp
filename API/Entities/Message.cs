@@ -15,11 +15,12 @@ namespace API.Entities
 
         public AppUser Sender { get; set; }
 
-        public int ReciverId { get; set; }
+        public int ReceiverId { get; set; }
 
-        public string ReiverUsername { get; set; }
+        public string ReceiverUsername { get; set; }
+        
 
-        public AppUser Reciver { get; set; }
+        public AppUser Receiver { get; set; }
 
         public string  Content { get; set; }
 
@@ -29,7 +30,7 @@ namespace API.Entities
 
         public bool SenderDeleted { get; set; }
 
-        public bool ReciverDeleted { get; set; }
+        public bool ReceiverDeleted { get; set; }
 
 
     }
