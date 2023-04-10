@@ -30,6 +30,7 @@ export class MemberDetailComponent implements OnInit {
     private messageService: MessageService
   ) {}
   ngOnInit(): void {
+    this.loadMember();
     this.route.data.subscribe((data) => {
       this.member = data['member'];
     });
@@ -50,6 +51,7 @@ export class MemberDetailComponent implements OnInit {
     });
   }
   getImages() {
+    console.log('images.....');
     if (!this.member) return [];
     const imageUrls = [];
     for (const photo of this.member.photos) {
@@ -74,6 +76,7 @@ export class MemberDetailComponent implements OnInit {
     this.memberService.getMember(username).subscribe((member) => {
       this.member = member;
       this.galleryImages = this.getImages();
+      // console.log(this.galleryImages);
     });
   }
 

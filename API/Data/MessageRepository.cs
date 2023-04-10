@@ -42,9 +42,9 @@ namespace API.Data
 
             query = messageParams.Container switch
             {
-                "Inbox" => query.Where(u => u.ReceiverUsername == messageParams.Username),
-                "Outbox" => query.Where(u => u.SenderUsername == messageParams.Username),
-                _ => query.Where(u => u.ReceiverUsername == messageParams.Username && u.DateRead == null)
+                "Inbox" => query.Where(u => u.ReceiverUsername == messageParams.Username && u.ReceiverDeleted == false),
+                "Outbox" => query.Where(u => u.SenderUsername == messageParams.Username && u.SenderDeleted == false),
+                _ => query.Where(u => u.ReceiverUsername == messageParams.Username && u.ReceiverDeleted == false && u.DateRead == null)
             };
 
             var message = query.ProjectTo<MessageDto>(mapper.ConfigurationProvider);
@@ -56,23 +56,23 @@ namespace API.Data
         {
 
             var messages = await context.Messages.Include(u => u.Sender).ThenInclude(p => p.Photos).Include(u => u.Receiver).ThenInclude(p => p.Photos).Where(
-                m => m.ReceiverUsername == currentUserName && m.SenderUsername == receiverUserName ||
-                         m.ReceiverUsername == receiverUserName && m.SenderUsername == currentUserName
-            ).OrderByDescending(m => m.MessageSent).ToListAsync();
+                m => m.ReceiverUsername == currentUserName && m.ReceiverDeleted==false && m.SenderUsername == receiverUserName ||
+                         m.ReceiverUsername == receiverUserName && m.SenderDeleted==false && m.SenderUsername == currentUserName
+            ).OrderBy(m => m.MessageSent).ToListAsync();
 
 
-                var unreadMessages =  messages.Where(m=>m.DateRead == null && m.ReceiverUsername == currentUserName).ToList();
+            var unreadMessages = messages.Where(m => m.DateRead == null && m.ReceiverUsername == currentUserName).ToList();
 
-                if(unreadMessages.Any())
+            if (unreadMessages.Any())
+            {
+                foreach (var message in unreadMessages)
                 {
-                    foreach(var message in unreadMessages)
-                    {
-                        message.DateRead = DateTime.UtcNow; 
-                    }
-                    await context.SaveChangesAsync();
+                    message.DateRead = DateTime.UtcNow;
                 }
+                await context.SaveChangesAsync();
+            }
 
-                return mapper.Map<IEnumerable<MessageDto>>(messages);
+            return mapper.Map<IEnumerable<MessageDto>>(messages);
 
         }
 

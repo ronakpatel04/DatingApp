@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Message } from 'src/app/models/message';
 import { MessageService } from 'src/app/services/message.service';
 
@@ -9,18 +10,22 @@ import { MessageService } from 'src/app/services/message.service';
   styleUrls: ['./member-messages.component.css'],
 })
 export class MemberMessagesComponent implements OnInit {
-    @Input() username ?: string;
-   @Input() messages!:Message[]
-  constructor(private messageService  :MessageService ){}
-  
-  ngOnInit(): void {
-  }
+  @ViewChild('messageForm')messageForm!:NgForm
+  @Input() username?: string;
+  @Input() messages!: Message[];
+  messageContent = '';
+  constructor(private messageService: MessageService) {}
 
-  // loadMessages(){
-  //   if(this.username){
-  //    this.messageService.getMessageThread(this.username).subscribe(message =>{
-  //       this.messages = message;
-  //     })
-  //   }
-  }
+  ngOnInit(): void {}
 
+  sendMessage() {
+    if (!this.username) return;
+
+    this.messageService
+      .sendMessage(this.username, this.messageContent)
+      .subscribe((message) => {
+        this.messages.push(message);
+        this.messageForm.reset();
+      });
+  }
+}
