@@ -1,0 +1,64 @@
+<div class="card mt-3">
+  <div class="card-body">
+    <div *ngIf="messages.length === 0" style="color: white">
+      No messages yet.... Say hi by using the message box below😊
+    </div>
+
+    <ul *ngIf="messages.length > 0" class="chat">
+      <li *ngFor="let message of messages">
+        <div>
+          <span class="chat-img float-end">
+            <img
+              class="rounded-circle"
+              src="{{ message.senderPhotoUrl || './assets/user.png' }} "
+              alt="image of user"
+            />
+          </span>
+
+          <div class="chat-body">
+            <div class="header">
+              <small class="text-muted">
+                <span class="fa fa-clock-o">
+                  <span style="margin-right: 2px">
+                    {{ message.messageSent | timeago }}
+                  </span>
+                </span>
+                <span
+                  class="text-danger"
+                  style="color: rgba(241, 26, 26, 0.4);"
+                  *ngIf="
+                    !message.dateRead && message.senderUsername !== username
+                  "
+                  >(unread)</span
+                >
+                <span
+                  class="text-sucsess"
+                  style="color: rgb(110, 236, 110,0.4);"
+                  *ngIf="
+                    message.dateRead && message.senderUsername !== username
+                  "
+                  >(read {{ message.dateRead | timeago }})</span
+                >
+              </small>
+            </div>
+            <p style="color: white;">{{ message.content }}</p>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="card-footer">
+    <form>
+      <div class="input-group">
+        <input
+          type="text"
+          class="form-control input-sm"
+          placeholder="sent a private message"
+        />
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="submit">Send</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
