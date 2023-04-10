@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using API.DTOs;
 using API.Extensions;
 using API.Helpers;
@@ -50,10 +46,10 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public  async Task<ActionResult<PagedList<LikeDto>>> GetUserLikes([FromQuery]LikeParams likeParams)
+        public async Task<ActionResult<PagedList<LikeDto>>> GetUserLikes([FromQuery] LikeParams likeParams)
         {
 
-                likeParams.UserId =  int.Parse(User.GetUserId());
+            likeParams.UserId = int.Parse(User.GetUserId());
 
             var users = await likeRepository.GetUserLikes(likeParams);
 

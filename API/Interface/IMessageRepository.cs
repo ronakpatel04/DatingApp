@@ -12,9 +12,9 @@ namespace API.Interface
 
         Task<Message> GetMessage(int id);
 
-        Task<PagedList<MessageDto>>GetMessagesForUser();
+        Task<PagedList<MessageDto>>GetMessagesForUser(MessageParams messageParams);
 
-        Task<IEnumerable<MessageDto>>GetMessageThread(int currentuserId , int receiverId);
+        Task<IEnumerable<MessageDto>>GetMessageThread(string currentUserName , string receiverUserName);
     
         Task<bool>SaveAllAsync();
 
