@@ -11,8 +11,9 @@ import { AdminService } from 'src/app/services/admin.service';
 })
 export class UserManagementComponent implements OnInit {
   users: User[] = [];
-  bsModalRef: BsModalRef<RolesModalComponent> =
-    new BsModalRef<RolesModalComponent>();
+  bsModalRef: BsModalRef<RolesModalComponent> =  new BsModalRef<RolesModalComponent>();
+
+  availableRoles = ['Admin', 'Moderator', 'Member'];
   constructor(
     private adminService: AdminService,
     private modalService: BsModalService
