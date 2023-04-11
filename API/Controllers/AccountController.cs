@@ -8,6 +8,7 @@ using API.Entities;
 using API.Interface;
 using API.Services;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,15 +16,16 @@ namespace API.Controllers
 {
     public class AccountController : BaseApiController
     {
-        private readonly DataContext context;
+        private readonly UserManager<AppUser> userManager;
         private readonly ITokenService tokenService;
         private readonly IMapper mapper;
 
-        public AccountController(DataContext context, ITokenService tokenService, IMapper mapper)
+        public AccountController(UserManager<AppUser> userManager, ITokenService tokenService, IMapper mapper)
         {
+            this.userManager = userManager;
             this.tokenService = tokenService;
             this.mapper = mapper;
-            this.context = context;
+
         }
 
         [HttpPost("register")] // Post : api/Account/register
@@ -40,16 +42,20 @@ namespace API.Controllers
 
 
             user.UserName = registerDtos.Username.ToLower();
-          
 
-            context.Users.Add(user);
-            await context.SaveChangesAsync();
+            var result = await userManager.CreateAsync(user, registerDtos.Password);
+
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+
             return new UserDtos
             {
                 Username = user.UserName,
                 Token = tokenService.CreateToken(user),
                 KnownAs = user.KnownAs,
-                Gender =  user.Gender
+                Gender = user.Gender
             };
 
         }
@@ -60,13 +66,15 @@ namespace API.Controllers
         public async Task<ActionResult<UserDtos>> Login(LoginDtos loginDtos)
         {
 
-            var user = await context.Users.Include(p => p.Photos).SingleOrDefaultAsync(x => x.UserName == loginDtos.Username);
+            var user = await userManager.Users.Include(p => p.Photos).SingleOrDefaultAsync(x => x.UserName == loginDtos.Username);
 
             if (user == null) return Unauthorized("Invalid Username");
 
+            var result = await userManager.CheckPasswordAsync(user, loginDtos.Password);
 
 
-         
+            if (!result) return Unauthorized("Invalid Password");
+
             // for (int i = 0; i < ComputeHash.Length; i++)
             // {
             //     if (ComputeHash[i] != user.PasswordHash[i])
@@ -80,13 +88,13 @@ namespace API.Controllers
                 Token = tokenService.CreateToken(user),
                 PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
                 KnownAs = user.KnownAs,
-                Gender= user.Gender
+                Gender = user.Gender
             };
         }
 
         private async Task<bool> UserExist(string username)
         {
-            return await context.Users.AnyAsync(x => x.UserName == username);
+            return await userManager.Users.AnyAsync(x => x.UserName == username);
         }
     }
 }

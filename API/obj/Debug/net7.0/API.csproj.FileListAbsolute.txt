@@ -73,3 +73,4 @@ D:\DatingApp\API\bin\Debug\net7.0\AutoMapper.dll
 D:\DatingApp\API\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 D:\DatingApp\API\bin\Debug\net7.0\CloudinaryDotNet.dll
 D:\DatingApp\API\bin\Debug\net7.0\Newtonsoft.Json.dll
+D:\DatingApp\API\bin\Debug\net7.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
