@@ -40,8 +40,7 @@ namespace API.Controllers
 
 
             user.UserName = registerDtos.Username.ToLower();
-            user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDtos.Password));
-            user.PasswordSalt = hmac.Key;
+          
 
             context.Users.Add(user);
             await context.SaveChangesAsync();
@@ -67,15 +66,7 @@ namespace API.Controllers
 
 
 
-            using var hmac = new HMACSHA512(user.PasswordSalt);
-
-            var ComputeHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDtos.Password));
-
-            if (!StructuralComparisons.StructuralEqualityComparer.Equals(ComputeHash, user.PasswordHash))
-            {
-                return Unauthorized("invalid Password");
-            }
-
+         
             // for (int i = 0; i < ComputeHash.Length; i++)
             // {
             //     if (ComputeHash[i] != user.PasswordHash[i])
