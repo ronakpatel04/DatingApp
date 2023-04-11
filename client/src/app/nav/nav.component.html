@@ -10,7 +10,7 @@
             aria-current="page"
             routerLink="/members"
             routerLinkActive="active"
-            [routerLinkActiveOptions]="{exact:true}"
+            [routerLinkActiveOptions]="{ exact: true }"
           >
             Matches</a
           >
@@ -25,6 +25,11 @@
             >Message</a
           >
         </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/admin" routerLinkActive="active"
+            >Admin</a
+          >
+        </li>
       </ng-container>
       <li class="nav-item">
         <a class="nav-link" routerLink="/errors" routerLinkActive="active"
@@ -37,8 +42,10 @@
       *ngIf="logIn && (accountService.currentUser$ | async) as User"
       dropdown
     >
-    <img src="{{User.photoUrl || './assets/user.png'}}" alt="user photo">
-      <a class="dropdown-toggle text-light text-decoration-none ms-2" dropdownToggle
+      <img src="{{ User.photoUrl || './assets/user.png' }}" alt="user photo" />
+      <a
+        class="dropdown-toggle text-light text-decoration-none ms-2"
+        dropdownToggle
         >Welcome {{ User.knownAs | titlecase }}</a
       >
 
