@@ -19,6 +19,12 @@ namespace API.Data
             this.mapper = mapper;
         }
 
+        public void AddGroup(Group group)
+        {
+
+
+            context.Groups.Add(group);
+        }
 
         public void AddMessage(Message message)
         {
@@ -31,9 +37,24 @@ namespace API.Data
 
         }
 
+        public async Task<Connection> GetConnection(string connectionId)
+        {
+
+            return await context.Connections.FindAsync(connectionId);
+
+
+        }
+
         public async Task<Message> GetMessage(int id)
         {
             return await context.Messages.FindAsync(id);
+        }
+
+        public async Task<Group> GetMessageGroup(string groupName)
+        {
+            return await context.Groups.Include(x => x.Connections).FirstOrDefaultAsync(x => x.Name == groupName);
+
+
         }
 
         public async Task<PagedList<MessageDto>> GetMessagesForUser(MessageParams messageParams)
@@ -56,8 +77,8 @@ namespace API.Data
         {
 
             var messages = await context.Messages.Include(u => u.Sender).ThenInclude(p => p.Photos).Include(u => u.Receiver).ThenInclude(p => p.Photos).Where(
-                m => m.ReceiverUsername == currentUserName && m.ReceiverDeleted==false && m.SenderUsername == receiverUserName ||
-                         m.ReceiverUsername == receiverUserName && m.SenderDeleted==false && m.SenderUsername == currentUserName
+                m => m.ReceiverUsername == currentUserName && m.ReceiverDeleted == false && m.SenderUsername == receiverUserName ||
+                         m.ReceiverUsername == receiverUserName && m.SenderDeleted == false && m.SenderUsername == currentUserName
             ).OrderBy(m => m.MessageSent).ToListAsync();
 
 
@@ -73,6 +94,13 @@ namespace API.Data
             }
 
             return mapper.Map<IEnumerable<MessageDto>>(messages);
+
+        }
+
+        public void RemoveConnection(Connection connection)
+        {
+
+            context.Connections.Remove(connection);
 
         }
 

@@ -1,11 +1,11 @@
 <div class="card mt-3">
   <div class="card-body">
-    <div *ngIf="messages.length === 0" style="color: white">
+    <div *ngIf="(messageService.messageThread$ | async)?.length === 0" style="color: white">
       No messages yet.... Say hi by using the message box below😊
     </div>
 
-    <ul *ngIf="messages.length > 0" class="chat">
-      <li *ngFor="let message of messages">
+    <ul *ngIf="(messageService.messageThread$ | async)!.length > 0" class="chat">
+      <li *ngFor="let message of (messageService.messageThread$ | async)">
         <div>
           <span class="chat-img float-end">
             <img
@@ -20,7 +20,7 @@
               <small class="text-muted">
                 <span class="fa fa-clock-o">
                   <span style="margin-right: 2px">
-                    {{ message.messageSent +'Z' | timeago }}
+                    {{ message.messageSent  | timeago }}
                   </span>
                 </span>
                 <span
@@ -37,7 +37,7 @@
                   *ngIf="
                     message.dateRead && message.senderUsername !== username
                   "
-                  >(read {{ message.dateRead +'Z' | timeago }})</span
+                  >(read {{ message.dateRead  | timeago }})</span
                 >
               </small>
             </div>
